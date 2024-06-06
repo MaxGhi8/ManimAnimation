@@ -1,9 +1,0 @@
-# This file is used internally by FFMPEG.
-file 'file:/home/max/Documents/ManimAnimation/mateMATTIci/media/videos/Problema10Nazionali2021/480p15/partial_movie_files/Problema/2772399066_1272059884_223132457.mp4'
-file 'file:/home/max/Documents/ManimAnimation/mateMATTIci/media/videos/Problema10Nazionali2021/480p15/partial_movie_files/Problema/1071732365_2841533016_2023685326.mp4'
-file 'file:/home/max/Documents/ManimAnimation/mateMATTIci/media/videos/Problema10Nazionali2021/480p15/partial_movie_files/Problema/1071732365_2154481067_2149265236.mp4'
-file 'file:/home/max/Documents/ManimAnimation/mateMATTIci/media/videos/Problema10Nazionali2021/480p15/partial_movie_files/Problema/1071732365_4134030295_2304923226.mp4'
-file 'file:/home/max/Documents/ManimAnimation/mateMATTIci/media/videos/Problema10Nazionali2021/480p15/partial_movie_files/Problema/1071732365_1784877436_2726370864.mp4'
-file 'file:/home/max/Documents/ManimAnimation/mateMATTIci/media/videos/Problema10Nazionali2021/480p15/partial_movie_files/Problema/1071732365_833500919_1967307627.mp4'
-file 'file:/home/max/Documents/ManimAnimation/mateMATTIci/media/videos/Problema10Nazionali2021/480p15/partial_movie_files/Problema/1071732365_239594338_2658146874.mp4'
-file 'file:/home/max/Documents/ManimAnimation/mateMATTIci/media/videos/Problema10Nazionali2021/480p15/partial_movie_files/Problema/1071732365_3494816192_2282749156.mp4'
