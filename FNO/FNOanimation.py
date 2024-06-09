@@ -23,7 +23,7 @@ class FNO(ThreeDScene):
         #### text
         text1 = Text("Evaluate the function \n on an uniform grid", font_size=24)
         text1.to_edge(RIGHT)
-        self.play(Create(text1), run_time=1)
+        self.play(ReplacementTransform(text, text1), run_time=1)
         self.wait(1)
         
         #### create the tensor
@@ -54,13 +54,15 @@ class FNO(ThreeDScene):
         tensor_group_input = self.createTensor(tensor_size, length, spacing, color=BLUE)
         tensor_group_input.scale(0.5).move_to(2*LEFT)
         # For efficiency select the first one, for better visual select the second one
-        self.play(ReplacementTransform(tensor_group1, tensor_group_input), FadeOut(tensor_group2), FadeOut(tensor_group3), run_time=1)
-        # self.play(ReplacementTransform(Group(tensor_group1, tensor_group2, tensor_group3), tensor_group_input), run_time=1)
+        # self.play(ReplacementTransform(tensor_group1, tensor_group_input), FadeOut(tensor_group2), FadeOut(tensor_group3), run_time=1)
+        self.play(ReplacementTransform(Group(tensor_group1, tensor_group2, tensor_group3), tensor_group_input), run_time=1)
 
         #### text
         text3 = MathTex(r"\text{Apply lifting operator } \mathcal{P}", font_size=24)
         text3.to_edge(RIGHT)
-        self.play(tensor_group_input.animate.shift(2*LEFT), ReplacementTransform(text2, text3), run_time=1)
+        title1 = Text("LIFTING OPERATOR", font_size=36)
+        title1.to_edge(UP)
+        self.play(ReplacementTransform(title, title1), tensor_group_input.animate.shift(2*LEFT), ReplacementTransform(text2, text3), run_time=1)
         
         #### create the lifting operator
         # Highlight an input vector
@@ -84,8 +86,8 @@ class FNO(ThreeDScene):
         self.play(GrowArrow(arrow))
         
         # create a label above the arrow
-        label1 = MathTex(r"W_1 \cdot x_{1, 1} + b_1", font_size=36)
-        label2 = MathTex(r"W_1 \in \mathbb{R}^{d_a \times d_v},\ b_1 \in \mathbb{R}^{d_v}", font_size=28)
+        label1 = MathTex(r"W_{\mathcal{P}} \cdot x_{1, 1} + b_{\mathcal{P}}", font_size=36)
+        label2 = MathTex(r"W_{\mathcal{P}} \in \mathbb{R}^{d_a \times d_v},\ b_{\mathcal{P}} \in \mathbb{R}^{d_v}", font_size=28)
         label1.next_to(arrow, UP, buff=0.2)
         label2.next_to(arrow, DOWN, buff=0.2)
         self.play(FadeIn(label1), FadeIn(label2), run_time=1)
@@ -107,7 +109,7 @@ class FNO(ThreeDScene):
             self.play(specific_cube.animate.set_color(RED), run_time=0.4)
             if i == tensor_size[0]:
                 # update label and color
-                label1_2 = MathTex(r"W_1 \cdot x_{1, 2} + b_1", font_size=36)
+                label1_2 = MathTex(r"W_{\mathcal{P}} \cdot x_{1, 2} + b_{\mathcal{P}}", font_size=36)
                 label1_2.next_to(arrow, UP, buff=0.2)
                 self.play(specific_cube.animate.set_color(RED), ReplacementTransform(label1, label1_2), run_time=1)
 
@@ -128,12 +130,13 @@ class FNO(ThreeDScene):
         
         # remove the input and move all to the left
         self.play(FadeOut(tensor_group_input), FadeOut(arrow), FadeOut(label1_2), FadeOut(label2), run_time=1)
-        self.play(tensor_group_W.animate.move_to(4*LEFT), run_time=1)
 
         #### Affine transformation
         text4 = Tex(r"Apply an affine and \\ pointwise transformation", font_size=24)
         text4.to_edge(RIGHT)
-        self.play(ReplacementTransform(text3, text4), run_time=1) 
+        title2 = Text("FIRST FOURIER LAYER (L=1)", font_size=36)
+        title2.to_edge(UP)
+        self.play(tensor_group_W.animate.move_to(4*LEFT), ReplacementTransform(title1, title2), ReplacementTransform(text3, text4), run_time=1) 
 
         # Create the transformed tensor
         tensor_group_V1 = self.createTensor((5, 6, 6), length, spacing, color=GREEN)
@@ -149,30 +152,25 @@ class FNO(ThreeDScene):
         self.play(GrowArrow(arrow))
         
         # create a label above the arrow
-        label1 = MathTex(r"W_2 \cdot x + b_2, \quad \text{pointwise}", font_size=24)
-        label2 = MathTex(r"W_2 \in \mathbb{R}^{d_v \times d_v}, b_2 \in \mathbb{R}^{d_v}", font_size=24)
+        label1 = MathTex(r"W_1 \cdot x + b_1, \quad \text{pointwise}", font_size=24)
+        label2 = MathTex(r"W_1 \in \mathbb{R}^{d_v \times d_v}, b_1 \in \mathbb{R}^{d_v}", font_size=24)
         label1.next_to(arrow, UP, buff=0.2)
         label2.next_to(arrow, DOWN, buff=0.2)
-        self.play(FadeIn(label1), FadeIn(label2), run_time=1)
+        self.play(Create(label1), Create(label2), run_time=1)
 
         self.play(FadeIn(tensor_group_V1), run_time=1)
         self.wait(2)
         self.play(FadeOut(arrow), FadeOut(label1), FadeOut(label2), FadeOut(tensor_group_V1), run_time=1)
         
         #### FNO block
-        text5 = MathTex(r"\text{Fourier block}", font_size=24)
+        text5 = MathTex(r"\text{The input represent} \\ \text{a function in } \mathbb{R}^{d_v}", font_size=24)
         text5.to_edge(RIGHT)
         self.play(ReplacementTransform(text4, text5), run_time=1)
-        self.wait(1)
-        
-        text6 = MathTex(r"\text{The input represent} \\ \text{a function in } \mathbb{R}^{d_v}", font_size=24)
-        text6.to_edge(RIGHT)
-        self.play(ReplacementTransform(text5, text6), run_time=1)
-        self.wait(1)
+        self.wait(2)
         
         text7 = MathTex(r"\text{Apply the Fourier transform}", font_size=24)
         text7.to_edge(RIGHT)
-        self.play(ReplacementTransform(text6, text7), run_time=1)
+        self.play(ReplacementTransform(text5, text7), run_time=1)
         self.wait(1)
         
         # Fourier transform
@@ -211,13 +209,13 @@ class FNO(ThreeDScene):
             max_tip_length_to_length_ratio=0.1  # Adjust the tip length to arrow length ratio
         )
         self.play(GrowArrow(arrow))
-        label = MathTex(r"R_{\Theta, t}", font_size=36)
+        label = MathTex(r"R_{\Theta, t} \in \mathbb{C}^{d_v \times d_v \times k_{max} \times k_{max}}", font_size=28)
         label.next_to(arrow, UP, buff=0.2)
         self.play(FadeIn(label), run_time=1) 
         self.play(text8.animate.shift(UP))
-        text9 = MathTex(r"\hat{\mathbf{v}}_{t+1}(\mathbf{k}) = R_{\Theta, t}(\mathbf{k}) \cdot \hat{\mathbf{v}}_{t}(\mathbf{k})", font_size=24)
+        text9 = MathTex(r"\hat{\mathbf{v}}_{2}(\mathbf{k}) = R_{\Theta, 1}(\mathbf{k}) \cdot \hat{\mathbf{v}}_{1}(\mathbf{k}) \\ \forall \mathbf{k} \in \mathbb{Z}_{k_{max}}", font_size=24)
         text9.to_edge(RIGHT)
-        self.play(FadeIn(text9), run_time=1)
+        self.play(Create(text9), run_time=1)
         self.play(FadeIn(tensor_group_F_theta), run_time=1)
         self.wait()
 
@@ -247,9 +245,84 @@ class FNO(ThreeDScene):
         self.play(FadeIn(tensor_group_F_1), run_time=1) 
         self.wait()
         
-        
+        # add, sigma and output
+        self.play(FadeOut(arrow), FadeOut(label), FadeOut(tensor_group_F_theta), FadeOut(text10), run_time=1)
+        self.play(tensor_group_F_1.animate.move_to(4*LEFT), run_time=1)
+        plus = MathTex(r"+", font_size=36)
+        plus.next_to(tensor_group_F_1, RIGHT)
+        self.play(FadeIn(plus), run_time=1)
+        tensor_group_V1.next_to(plus, RIGHT)
+        self.play(FadeIn(tensor_group_V1), run_time=1)
+        self.wait()
 
+        left_paren = MathTex(r"\left(", font_size=146)
+        right_paren = MathTex(r"\right)", font_size=146)
+        sigma = MathTex(r"\sigma", font_size=36)
+        left_paren.next_to(tensor_group_F_1, LEFT, buff=0.5)
+        right_paren.next_to(tensor_group_V1, RIGHT, buff=0.2)
+        sigma.next_to(left_paren, LEFT, buff=0.2)
+        self.play(FadeIn(left_paren), FadeIn(right_paren), FadeIn(sigma), run_time=1)
+        self.wait(1)
         
+        equal = MathTex(r"=", font_size=36)
+        equal.next_to(right_paren, RIGHT)
+        tensor_group_V = self.createTensor((5, 6, 6), length, spacing, color=BLUE)
+        tensor_group_V.scale(0.5)
+        tensor_group_V.next_to(equal, RIGHT)
+        self.play(FadeIn(equal), FadeIn(tensor_group_V), run_time=1)
+
+        #### text
+        text11 = Tex(r"I repeat the Fourier layer $L$ times", font_size=30)
+        text11.to_edge(DOWN)
+        self.play(Create(text11), run_time=1)
+        self.wait()
+        
+        #### Projection operator
+        self.play(FadeOut(left_paren), FadeOut(right_paren), 
+                  FadeOut(sigma), FadeOut(equal), FadeOut(plus), 
+                  FadeOut(tensor_group_F_1), FadeOut(tensor_group_V1),
+                  FadeOut(text11), run_time=1)
+        title3 = Text("PROJECTION OPERATOR", font_size=36)
+        title3.to_edge(UP)
+        self.play(ReplacementTransform(title2, title3), run_time=1)
+        self.play(tensor_group_V.animate.move_to(4*LEFT), run_time=1)
+        text12 = MathTex(r"\text{Apply the projection operator } \mathcal{Q}", font_size=24)
+        text12.to_edge(RIGHT)
+        self.play(Create(text12), run_time=1)
+        self.wait(1)
+        
+        tensor_group_output= self.createTensor((1, 6, 6), length, spacing, color=BLUE)
+        tensor_group_output.move_to(2*RIGHT).scale(0.5)
+        arrow = Arrow(
+            start=tensor_group_V.get_right(), 
+            end=tensor_group_output.get_left(), 
+            buff=0.4,
+            stroke_width=4, # Adjust the width of the arrow
+            tip_length=0.2, # Adjust the length of the arrow tip
+            max_tip_length_to_length_ratio=0.1  # Adjust the tip length to arrow length ratio
+        )
+        self.play(GrowArrow(arrow))
+        
+        # create a label above the arrow
+        label1 = MathTex(r"W_{\mathcal{Q}} \cdot x + b_{\mathcal{Q}}, \quad \text{pointwise}", font_size=24)
+        label2 = MathTex(r"W_{\mathcal{Q}} \in \mathbb{R}^{d_v \times d_o}, b_{\mathcal{Q}} \in \mathbb{R}^{d_o}", font_size=24)
+        label1.next_to(arrow, UP, buff=0.2)
+        label2.next_to(arrow, DOWN, buff=0.2)
+        self.play(Create(label1), Create(label2), run_time=1)
+
+        self.play(FadeIn(tensor_group_output), run_time=1)
+        self.wait(2)
+        self.play(FadeOut(arrow), FadeOut(label1), FadeOut(label2), FadeOut(tensor_group_V), FadeOut(text12), run_time=1)
+        self.play(tensor_group_output.animate.shift(2*LEFT), run_time=1)
+        self.wait(1)
+        
+        #### output
+        image_output = ImageMobject('output.png')
+        image_output.scale(2)
+        text13 = Text("We got the output", font_size=24)
+        text13.to_edge(RIGHT)
+        self.play(Create(text13), run_time=1)
+        self.play(FadeOut(tensor_group_output), FadeIn(image_output), run_time=1)
 
         self.wait(2)
 
