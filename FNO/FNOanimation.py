@@ -10,6 +10,7 @@ class FNO_architecture(ThreeDScene):
         label_font_small = 28
         label_font_big = 34
 
+        ##=========================================================================================##
         #### add text for the title
         title = Text("FOURIER NEURAL OPERATOR", font_size=title_font)
         title.to_edge(UP)
@@ -29,7 +30,9 @@ class FNO_architecture(ThreeDScene):
         text1 = Text("Evaluate the function \n on a uniform grid", font_size=text_font)
         text1.to_edge(RIGHT)
         self.play(ReplacementTransform(text, text1), run_time=1)
-        self.wait(1)
+        
+        self.wait(2)
+        ##=========================================================================================##
         
         #### create the tensor
         tensor_size = (1, 6, 6) # tensor size
@@ -54,6 +57,9 @@ class FNO_architecture(ThreeDScene):
         tensor_group3.move_to(tensor_group2.get_right())
         self.play(FadeIn(tensor_group2), FadeIn(tensor_group3), run_time=1)
         
+        self.wait(2)
+        ##=========================================================================================##
+        
         #### create a new tensor and remove the previous tensors
         tensor_size = (3, 6, 6)
         tensor_group_input = self.createTensor(tensor_size, length, spacing, color=BLUE)
@@ -64,7 +70,10 @@ class FNO_architecture(ThreeDScene):
         etichetta1 = MathTex(r"v_0(\mathbf{x}) = (a(\mathbf{x}), \mathbf{x})", font_size=etichette_font)
         etichetta1.next_to(tensor_group_input, UP, buff=0.2)
         self.play(Create(etichetta1), run_time=1)
-            
+        
+        self.wait(2)
+        ##=========================================================================================##
+        
         #### text
         text3 = MathTex(r"\text{Apply lifting operator } \mathcal{P}", font_size=text_font)
         text3.to_edge(RIGHT)
@@ -94,7 +103,7 @@ class FNO_architecture(ThreeDScene):
         self.play(GrowArrow(arrow))
         
         # create a label above the arrow
-        label1 = MathTex(r"W_{\mathcal{P}} \cdot v_0(x_{1, 1}) + b_{\mathcal{P}}", font_size=label_font_big)
+        label1 = MathTex(r"W_{\mathcal{P}} v_0(x_{1, 1}) + b_{\mathcal{P}}", font_size=label_font_big)
         label2 = MathTex(r"W_{\mathcal{P}} \in \mathbb{R}^{d_a \times d_v},\ b_{\mathcal{P}} \in \mathbb{R}^{d_v}", font_size=label_font_small)
         label1.next_to(arrow, UP, buff=0.2)
         label2.next_to(arrow, DOWN, buff=0.2)
@@ -102,6 +111,9 @@ class FNO_architecture(ThreeDScene):
 
         # Show the lifted vector
         self.play(FadeIn(tensor_group_W1), run_time=1)
+        
+        self.wait(2)
+        ##=========================================================================================##
 
         # Do the same as before but with another input vector            
         # reset BLUE color
@@ -117,7 +129,7 @@ class FNO_architecture(ThreeDScene):
             self.play(specific_cube.animate.set_color(RED), run_time=0.4)
             if i == tensor_size[0]:
                 # update label and color
-                label1_2 = MathTex(r"W_{\mathcal{P}} \cdot v_0(x_{1, 2}) + b_{\mathcal{P}}", font_size=label_font_big)
+                label1_2 = MathTex(r"W_{\mathcal{P}} v_0(x_{1, 2}) + b_{\mathcal{P}}", font_size=label_font_big)
                 label1_2.next_to(arrow, UP, buff=0.2)
                 self.play(specific_cube.animate.set_color(RED), ReplacementTransform(label1, label1_2), run_time=1)
 
@@ -125,7 +137,9 @@ class FNO_architecture(ThreeDScene):
         tensor_group_W2 = self.createTensor((5, 1, 1), length, spacing, color=RED)
         tensor_group_W2.scale(0.5).move_to(2*RIGHT)
         self.play(FadeIn(tensor_group_W2), run_time=1)
-        self.wait(0.5)
+        
+        self.wait(2)
+        ##=========================================================================================##
 
         # create the lifted tensor
         tensor_group_W = self.createTensor((5, 6, 6), length, spacing, color=BLUE)
@@ -138,6 +152,9 @@ class FNO_architecture(ThreeDScene):
         etichetta2 = MathTex(r"v_1(\mathbf{x})", font_size=etichette_font)
         etichetta2.next_to(tensor_group_W, UP, buff=0.2)
         self.play(Create(etichetta2), run_time=1)
+        
+        self.wait(2)
+        ##=========================================================================================##
         
         # remove the input tensor and the labels
         self.play(FadeOut(tensor_group_input), FadeOut(etichetta1), FadeOut(arrow), FadeOut(label1_2), FadeOut(label2), run_time=1)
@@ -164,7 +181,7 @@ class FNO_architecture(ThreeDScene):
         self.play(GrowArrow(arrow))
         
         # create a label above the arrow
-        label1 = MathTex(r"W_1 \cdot v_1(\mathbf{x}) + b_1", font_size=label_font_big)
+        label1 = MathTex(r"W_1 v_1(\mathbf{x}) + b_1", font_size=label_font_big)
         label2 = MathTex(r"W_1 \in \mathbb{R}^{d_v \times d_v}, b_1 \in \mathbb{R}^{d_v}", font_size=label_font_small)
         label1.next_to(arrow, UP, buff=0.2)
         label2.next_to(arrow, DOWN, buff=0.2)
@@ -173,7 +190,10 @@ class FNO_architecture(ThreeDScene):
         etichetta3 = MathTex(r"v_2^{loc}(\mathbf{x})", font_size=etichette_font)
         etichetta3.next_to(tensor_group_V1, UP, buff=0.2)
         self.play(FadeIn(tensor_group_V1), Create(etichetta3), run_time=1)
+        
         self.wait(2)
+        ##=========================================================================================##
+        
         self.play(FadeOut(arrow), FadeOut(label1), FadeOut(label2), FadeOut(tensor_group_V1), FadeOut(etichetta3), run_time=1)
         
         #### FNO block
@@ -206,7 +226,10 @@ class FNO_architecture(ThreeDScene):
         label.next_to(arrow, UP, buff=0.2)
         self.play(FadeIn(label), run_time=1)
         self.play(FadeIn(tensor_group_F), Create(etichetta4), run_time=1)
+
         self.wait(2)
+        ##=========================================================================================##
+
         self.play(FadeOut(arrow), FadeOut(label), FadeOut(tensor_group_W), FadeOut(etichetta2), run_time=1)
         text8 = Tex(r"Parameters multiplication", font_size=text_font)
         text8.to_edge(RIGHT)
@@ -231,11 +254,13 @@ class FNO_architecture(ThreeDScene):
         label.next_to(arrow, UP, buff=0.2)
         self.play(FadeIn(label), run_time=1) 
         self.play(text8.animate.shift(UP))
-        text9 = MathTex(r"\hat{\mathbf{v}}_{2}^{glob}(\mathbf{k}) = R_{\Theta, 1}(\mathbf{k}) \cdot \hat{\mathbf{v}}_{1}(\mathbf{k}) \\ \forall \mathbf{k} \in \mathbb{Z}_{k_{max}}", font_size=text_font)
+        text9 = MathTex(r"\hat{\mathbf{v}}_{2}^{glob}(\mathbf{k}) = R_{\Theta, 1}(\mathbf{k}) \hat{\mathbf{v}}_{1}(\mathbf{k}) \\ \forall \mathbf{k} \in \mathbb{Z}_{k_{max}}", font_size=text_font)
         text9.to_edge(RIGHT)
         self.play(Create(text9), run_time=1)
         self.play(FadeIn(tensor_group_F_theta), Create(etichetta5), run_time=1)
-        self.wait()
+        
+        self.wait(2)
+        ##=========================================================================================##
 
         self.play(FadeOut(arrow), FadeOut(label), FadeOut(tensor_group_F), FadeOut(etichetta4), run_time=1)
         self.play(tensor_group_F_theta.animate.move_to(4*LEFT), etichetta5.animate.shift(6*LEFT), run_time=1)
@@ -263,7 +288,9 @@ class FNO_architecture(ThreeDScene):
         label.next_to(arrow, UP, buff=0.2)
         self.play(FadeIn(label), run_time=1) 
         self.play(FadeIn(tensor_group_F_1), Create(etichetta6), run_time=1) 
-        self.wait()
+        
+        self.wait(2)
+        ##=========================================================================================##
         
         # add, sigma and output
         self.play(FadeOut(arrow), FadeOut(label), FadeOut(tensor_group_F_theta), FadeOut(etichetta5), FadeOut(text10), run_time=1)
@@ -299,7 +326,9 @@ class FNO_architecture(ThreeDScene):
         text11 = Tex(r"Repeat the Fourier layer $L$ times", font_size=text_font)
         text11.to_edge(DOWN)
         self.play(Create(text11), run_time=1)
+        
         self.wait()
+        ##=========================================================================================##
         
         #### Projection operator
         self.play(FadeOut(left_paren), FadeOut(right_paren), 
@@ -333,14 +362,17 @@ class FNO_architecture(ThreeDScene):
         self.play(GrowArrow(arrow))
         
         # create a label above the arrow
-        label1 = MathTex(r"W_{\mathcal{Q}} \cdot v_L(\mathbf{x}) + b_{\mathcal{Q}}", font_size=label_font_big)
+        label1 = MathTex(r"W_{\mathcal{Q}} v_L(\mathbf{x}) + b_{\mathcal{Q}}", font_size=label_font_big)
         label2 = MathTex(r"W_{\mathcal{Q}} \in \mathbb{R}^{d_v \times d_o}, b_{\mathcal{Q}} \in \mathbb{R}^{d_o}", font_size=label_font_small)
         label1.next_to(arrow, UP, buff=0.2)
         label2.next_to(arrow, DOWN, buff=0.2)
         self.play(Create(label1), Create(label2), run_time=1)
 
         self.play(FadeIn(tensor_group_output), Create(etichetta9), run_time=1)
+        
         self.wait(2)
+        ##=========================================================================================##
+
         self.play(FadeOut(arrow), FadeOut(label1), FadeOut(label2), FadeOut(tensor_group_V), FadeOut(etichetta8), FadeOut(text12), run_time=1)
         self.play(tensor_group_output.animate.shift(2*LEFT), etichetta9.animate.shift(2*LEFT), run_time=1)
         self.wait(1)
