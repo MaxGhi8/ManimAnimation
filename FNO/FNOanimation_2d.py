@@ -194,8 +194,8 @@ class FNO_architecture(ThreeDScene):
         self.wait(2)
         ##=========================================================================================##
         
-        self.play(FadeOut(arrow), FadeOut(label1), FadeOut(label2), FadeOut(tensor_group_V1), FadeOut(etichetta3), run_time=1)
-        
+        self.play(FadeOut(arrow), FadeOut(label1), FadeOut(label2), tensor_group_V1.animate.to_corner(DR).scale(1/3), FadeOut(etichetta3), run_time=1)
+    
         #### FNO block
         text5 = MathTex(r"\text{The input represent} \\ \text{a function in } \mathbb{R}^{d_v}", font_size=text_font)
         text5.to_edge(RIGHT)
@@ -298,9 +298,9 @@ class FNO_architecture(ThreeDScene):
         plus = MathTex(r"+", font_size=36)
         plus.next_to(tensor_group_F_1, RIGHT)
         self.play(FadeIn(plus), run_time=1)
-        tensor_group_V1.next_to(plus, RIGHT)
+        self.play(tensor_group_V1.animate.scale(3).next_to(plus, RIGHT), run_time=1)
         etichetta3.next_to(tensor_group_V1, UP, buff=0.2)
-        self.play(FadeIn(tensor_group_V1), Create(etichetta3), run_time=1)
+        self.play(tensor_group_V1.animate, Create(etichetta3), run_time=1)
         self.wait()
 
         left_paren = MathTex(r"\left(", font_size=146)
