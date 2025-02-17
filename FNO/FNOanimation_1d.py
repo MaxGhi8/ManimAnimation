@@ -24,8 +24,8 @@ class FNO_architecture_1d(ThreeDScene):
         self.wait(1)
 
         #### add image
-        image = ImageMobject("input_darcy_2d.png")
-        image.scale(2)
+        image = ImageMobject("input_hh.png")
+        image.scale(1.5)
         text = Text("Take an input", font_size=text_font)
         text.to_edge(RIGHT)
         self.play(Create(text), run_time=1)
@@ -41,13 +41,18 @@ class FNO_architecture_1d(ThreeDScene):
         ##=========================================================================================##
 
         #### create the tensor
-        tensor_size = (d_input, n_points, 1)  # tensor size
+        tensor_size = (n_points, d_input, 1)  # tensor size
         length = 0.3  # side length of each cube
         spacing = 2 * length  # spacing between cubes
+        tensor_group1_rotate = self.createTensor(tensor_size, length, spacing)
+        tensor_group1_rotate.move_to(ORIGIN).scale(80 / 100)
+        self.play(FadeOut(image), FadeIn(tensor_group1_rotate), run_time=2)
+        self.wait(1)
+        tensor_size = (d_input, n_points, 1)  # tensor size
         tensor_group1 = self.createTensor(tensor_size, length, spacing)
-        tensor_group1.move_to(ORIGIN)  # Center the entire tensor group
-        self.play(FadeOut(image), FadeIn(tensor_group1), run_time=2)
-        self.wait(2)
+        tensor_group1.move_to(ORIGIN)
+        self.play(ReplacementTransform(tensor_group1_rotate, tensor_group1), run_time=1)
+        self.wait(1)
 
         #### text and move the tensor
         text2 = Text("Add the coordinate grid", font_size=text_font)
@@ -59,7 +64,8 @@ class FNO_architecture_1d(ThreeDScene):
         )
         self.wait(1)
 
-        #### create the grid
+        ### create the grid
+
         tensor_size = (1, n_points, 1)  # tensor size
         tensor_group2 = self.createTensor(tensor_size, length, spacing, GREEN)
         tensor_group2.move_to(tensor_group1.get_right() + 0.5 * RIGHT)
@@ -344,7 +350,7 @@ class FNO_architecture_1d(ThreeDScene):
         )
         self.play(GrowArrow(arrow))
         label = MathTex(
-            r"R_{\Theta, t} \in \mathbb{C}^{d_v \times d_v \times k_{max}}",
+            r"R_{\Theta, 1} \in \mathbb{C}^{d_v \times d_v \times k_{max}}",
             font_size=label_font_small,
         )
         label.next_to(arrow, UP, buff=0.2)
@@ -540,15 +546,64 @@ class FNO_architecture_1d(ThreeDScene):
         self.wait(1)
 
         #### output
-        image_output = ImageMobject("output_darcy_2d.png")
-        image_output.scale(2)
         text13 = Text("We obtain the output", font_size=text_font)
-        text13.to_edge(RIGHT)
-        self.play(Create(text13), run_time=1)
+        text13.to_edge(UP)
+        self.play(Transform(title3, text13), run_time=1)
+
+        image_output_1 = ImageMobject("v_hh.png")
+        image_output_1.scale(0.85).to_edge(LEFT)
+        image_output_2 = ImageMobject("m_hh.png")
+        image_output_2.scale(0.85).next_to(image_output_1, RIGHT)
+        image_output_3 = ImageMobject("h_hh.png")
+        image_output_3.scale(0.85).next_to(image_output_2, RIGHT)
+        image_output_4 = ImageMobject("n_hh.png")
+        image_output_4.scale(0.85).next_to(image_output_3, RIGHT)
+
+        # animation with arrange
+        # self.play(tensor_group_output.animate.scale(0.8).arrange(RIGHT, buff=0.2))
+
+        tensor_group_output_1_single = self.createTensor(
+            (1, n_points, 1), length, spacing
+        )
+        tensor_group_output_1_single.scale(0.5).move_to(image_output_1.get_center())
+        tensor_group_output_2_single = self.createTensor(
+            (1, n_points, 1), length, spacing
+        )
+        tensor_group_output_2_single.scale(0.5).move_to(image_output_2.get_center())
+        tensor_group_output_3_single = self.createTensor(
+            (1, n_points, 1), length, spacing
+        )
+        tensor_group_output_3_single.scale(0.5).move_to(image_output_3.get_center())
+        tensor_group_output_4_single = self.createTensor(
+            (1, n_points, 1), length, spacing
+        )
+        tensor_group_output_4_single.scale(0.5).move_to(image_output_4.get_center())
+
         self.play(
-            FadeOut(tensor_group_output),
+            ReplacementTransform(
+                tensor_group_output,
+                VGroup(
+                    tensor_group_output_1_single,
+                    tensor_group_output_2_single,
+                    tensor_group_output_3_single,
+                    tensor_group_output_4_single,
+                ),
+            ),
             FadeOut(etichetta9),
-            FadeIn(image_output),
+            run_time=1,
+        )
+
+        self.wait(1)
+
+        self.play(
+            FadeOut(tensor_group_output_1_single),
+            FadeOut(tensor_group_output_2_single),
+            FadeOut(tensor_group_output_3_single),
+            FadeOut(tensor_group_output_4_single),
+            FadeIn(image_output_1),
+            FadeIn(image_output_2),
+            FadeIn(image_output_3),
+            FadeIn(image_output_4),
             run_time=1,
         )
 
@@ -557,7 +612,7 @@ class FNO_architecture_1d(ThreeDScene):
     def createTensor(
         self, tensor_size, length, spacing, color=BLUE, opacity=1, angle=PI / 11
     ):
-        tensor_group = Group()  # Create a group to hold all the cubes
+        tensor_group = VGroup()  # Create a group to hold all the cubes
         for i in range(tensor_size[0]):
             for j in range(tensor_size[1]):
                 for k in range(tensor_size[2]):
