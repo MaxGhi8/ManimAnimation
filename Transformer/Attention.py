@@ -185,14 +185,14 @@ class AttentionPatterns(Scene):
         queries_grid = queries.copy()
         queries_grid = queries_grid[2::3]
         for idx, query in enumerate(queries_grid):
-            query.move_to(grid[0][idx + 1].get_center())
+            query.move_to(grid[0][idx + 1].get_center()).color(GREEN)
             self.play(Write(query), run_time=0.2)
         self.wait()
 
         keys_grid = keys.copy()
         keys_grid = keys_grid[2::3]
         for idx, key in enumerate(keys_grid):
-            key.move_to(grid[idx + 1][0].get_center())
+            key.move_to(grid[idx + 1][0].get_center()).color(YELLOW)
             self.play(Write(key), run_time=0.2)
         self.wait()
 
@@ -200,10 +200,10 @@ class AttentionPatterns(Scene):
         for i, j in it.product(range(1, 8), range(1, 8)):
             dot_product = (
                 MathTex(
-                    f"\\vec{{ \\textbf{{Q}} }}_{i} \cdot \\vec{{ \\textbf{{K}} }}_{j}"
+                    f"\\vec{{ \\textbf{{Q}} }}_{j} \cdot \\vec{{ \\textbf{{K}} }}_{i}"
                 )
                 .move_to(grid[i][j].get_center())
-                .scale(0.5)
+                .scale(0.25)
             )
             self.play(Write(dot_product), run_time=0.1)
         self.wait()
