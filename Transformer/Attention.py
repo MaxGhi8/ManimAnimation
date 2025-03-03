@@ -185,14 +185,14 @@ class AttentionPatterns(Scene):
         queries_grid = queries.copy()
         queries_grid = queries_grid[2::3]
         for idx, query in enumerate(queries_grid):
-            query.move_to(grid[0][idx + 1].get_center()).color(GREEN)
+            query.move_to(grid[0][idx + 1].get_center()).set_color(GREEN)
             self.play(Write(query), run_time=0.2)
         self.wait()
 
         keys_grid = keys.copy()
         keys_grid = keys_grid[2::3]
         for idx, key in enumerate(keys_grid):
-            key.move_to(grid[idx + 1][0].get_center()).color(YELLOW)
+            key.move_to(grid[idx + 1][0].get_center()).set_color(YELLOW)
             self.play(Write(key), run_time=0.2)
         self.wait()
 
