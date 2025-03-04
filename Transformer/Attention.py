@@ -348,23 +348,23 @@ class AttentionPatterns(Scene):
                 softmax_column.add(dot_product)
                 softmax_column_helper.add(dot_product)
 
-            if i > 0 and i < 7:
-                plus_symbol = (
-                    MathTex("\\textbf{+}")
-                    .scale(0.3)
-                    .move_to(grid[i][j].get_bottom())
-                    .set_color(RED)
-                )
-                softmax_column.add(plus_symbol)
+                if i > 0 and i < 7:
+                    plus_symbol = (
+                        MathTex("\\textbf{+}")
+                        .scale(0.3)
+                        .move_to(grid[i][j].get_bottom())
+                        .set_color(RED)
+                    )
+                    softmax_column_1.add(plus_symbol)
 
-            elif i == 7:
-                result = (
-                    MathTex(f"\\vec{{ \\textbf{{A}} }}_{j}")
-                    .scale(0.3)
-                    .next_to(grid[i][j].get_bottom(), DOWN, buff=0.1)
-                    .set_color(RED)
-                )
-                softmax_column.add(result)
+                elif i == 7:
+                    result = (
+                        MathTex(f"\\vec{{ \\textbf{{A}} }}_{j}")
+                        .scale(0.3)
+                        .next_to(grid[i][j].get_bottom(), DOWN, buff=0.1)
+                        .set_color(RED)
+                    )
+                    softmax_column.add(result)
 
             self.play(
                 FadeIn(softmax_column),
